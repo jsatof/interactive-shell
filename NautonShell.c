@@ -11,21 +11,30 @@
 #define clear() printf("\033[H\033[J") // Escape Sequence: clears everything in terminal and places cursor at top
 
 // our created header files
-#include "headers/ReadLine.h"
+#include "headers/InputBuffer.h"
 
-// initializes shell
-void init() {
-	clear();
-	puts("NautonShell implemented by James Ferrarelli and Shane Lopez. OS Fall-2019");
-	char* uname = getenv("USER"); // stdlib library function, might have to implement ourselves
-	printf("logged in as %s\n", uname);
-	sleep(1);
-	clear();
+// main loop for continual use
+void shellLoop() {
+	char uname[50];
+	char *line;
+	char **args;
+	int status;
+
+	while(status) {
+		gethostname(uname, 50); // sets uname to the machine name
+		printf("@%s$ ", uname);
+		line = readInput();
+		args = parseInput(line);
+		status = executeInput(args);
+		
+		free(line);
+		free(args);
+	}
 }
 
 int main(int argc, char* args[]) {
-	init();
-	readInput(); // from ReadLine.h
+	clear();
+	puts("NautonShell implemented by James Ferrarelli and Shane Lopez. OS Fall-2019");
 	return 0;
 }
 
