@@ -11,7 +11,7 @@
 #define clear() printf("\033[H\033[J") // Escape Sequence: clears everything in terminal and places cursor at top
 
 // our created header files
-#include "c-files/ReadLine.h"
+#include "headers/ReadLine.h"
 
 // initializes shell
 void init() {
