@@ -1,9 +1,7 @@
 # Shell Terminal Project
-This project implements a linux-like terminal with the base functionalities, including `pwd`, `cd`, `mkdir`, `rmdir`, `chmod`, `cp`.
-
-The `headers` directory contains all created header files for more organization. 
-
-The terminal itself is launched by the `NautonShell` file.
+This project implements a linux-like terminal with the base functionalities, including `pwd`, `cd`, `mkdir`, `rmdir`, `chmod`, `cp`.<br>
+The `headers` directory contains all created header files for more organization. <br>
+The terminal itself is launched by the `NautonShell` file.<br>
 
 # Use
 The shell is launched by entering: `./NautonShell`<br>
