@@ -1,11 +1,12 @@
 # Shell Terminal Project
 This project implements a linux-like terminal with the base functionalities, including `pwd`, `cd`, `mkdir`, `rmdir`, `chmod`, `cp`.
 
-The `c-files` directory contains all C-lang source code. 
-The `executables` folder contains all compiled executables from the C compiler (GCC).
+The `headers` directory contains all created header files for more organization. 
 
-The terminal itself is launched by the `terminal` file.
+The terminal itself is launched by the `NautonShell` file.
 
 # Use
 Using commands:
-	Each of the commands follow this syntax: `./terminal <command> <args>`
+	The shell is launched by entering: `./NautonShell`
+	Then shell will await input from user and parses for the listed commands: `@USER> <command> <arguments>`
+	An error message will be returned if something other than the listed commands are entered.
