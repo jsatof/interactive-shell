@@ -1,12 +1,17 @@
+// C libraries
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 
+// constants
 #define MAXINPUT 1000 // max number of characters supported
 #define MAXLIST 6 // number of commands supported
 #define clear() printf("\033[H\033[J") // Escape Sequence: clears everything in terminal and places cursor at top
+
+// our created header files
+#include "c-files/ReadLine.h"
 
 // initializes shell
 void init() {
@@ -18,14 +23,9 @@ void init() {
 	clear();
 }
 
-int readInput(char* str) {
-	char buffer;
-	buffer = readLine("\n>>> ");
-	
-}
-
 int main(int argc, char* args[]) {
 	init();
+	readInput(); // from ReadLine.h
 	return 0;
 }
 
