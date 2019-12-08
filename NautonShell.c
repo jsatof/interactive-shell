@@ -17,7 +17,7 @@ void shellLoop() {
 	char uname[50];
 	char *line;
 	char **args;
-	int status;
+	int status = 1;
 
 	while(status) {
 		gethostname(uname, 50); // sets uname to the machine name
