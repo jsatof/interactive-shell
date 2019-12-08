@@ -13,14 +13,6 @@
 	Buffer for handling stdin
 *******/
 
-// list of valid commands
-char *commands[] = {"exit", "help", "cd", "pwd", "mkdir", "rmdir", "chmod", "cp"};
-
-// returns size of commands[]
-int sizeOfCommands() {
-	return sizeof(commands) / sizeof(char*);
-}
-
 // fetches the line entered by the user
 char *readInput() {
 	int bufferSize = 1024; // arbitrarily picked a size
@@ -29,7 +21,7 @@ char *readInput() {
 	int c;
 
 	if(!buffer) { // checks if buffer is a null character
-		puts("allocation error: buffer received a null character");
+		puts("allocation error: reader received a null character");
 		exit(EXIT_FAILURE);
 	}	
 
@@ -50,11 +42,11 @@ char *readInput() {
 
 		// reallocate for when the buffer size is exceeded
 		if(index >= bufferSize) {
-			bufferSize += 1024; // double the size
+			bufferSize *= 1024; // double the size
 			buffer = realloc(buffer, bufferSize);
 		
 			if(!buffer) { // check again for null character
-				puts("allocation error: buffer received a null character");
+				puts("allocation error: reader received a null character");
 				exit(EXIT_FAILURE);
 			}			
 		}
