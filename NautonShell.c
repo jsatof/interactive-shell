@@ -25,7 +25,6 @@ void shellLoop() {
 		line = readInput();
 		args = parseInput(line);
 		status = launchInput(args);
-		puts(line);
 		
 		free(line);
 		free(args);
