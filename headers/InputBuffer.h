@@ -85,9 +85,8 @@ char** parseInput(char* line) {
 }
 
 // creates process for parsed commands 
-int executeInput(char **args) {
+int launchInput(char **args) {
 	pid_t pid; 
-	pid_t wpid;
 	int status;
 
 	pid = fork();
@@ -105,7 +104,7 @@ int executeInput(char **args) {
 	// parent process
 	else {
 		do {
-			wpid = waitpid(pid, &status, WUNTRACED);
+			waitpid(pid, &status, WUNTRACED);
 		}
 		while(!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
