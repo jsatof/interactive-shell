@@ -3,14 +3,6 @@
 
 // This file contains all command implementation
 
-// list of valid commands
-char *commands[] = {"exit", "help", "cd", "pwd", "mkdir", "rmdir", "chmod", "cp"};
-
-// returns size of commands[]
-int numOfCommands() {
-	return sizeof(commands) / sizeof(char*);
-}
-
 // change all the return types and parameters passed as see fit
 void shell_cd(char **args) {
 	

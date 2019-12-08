@@ -13,6 +13,14 @@
 	Buffer for handling stdin
 *******/
 
+// list of valid commands
+char *commands[] = {"exit", "help", "cd", "pwd", "mkdir", "rmdir", "chmod", "cp"};
+
+// returns size of commands[]
+int sizeOfCommands() {
+	return sizeof(commands) / sizeof(char*);
+}
+
 // fetches the line entered by the user
 char *readInput() {
 	int bufferSize = 1024; // arbitrarily picked a size
