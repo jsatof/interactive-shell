@@ -102,6 +102,7 @@ int executeInput(char **args) {
 	else if(pid < 0) {
 		perror("shell");
 	}
+	// parent process
 	else {
 		do {
 			wpid = waitpid(pid, &status, WUNTRACED);
