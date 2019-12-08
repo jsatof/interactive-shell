@@ -42,11 +42,11 @@ char *readInput() {
 }
 
 // detects the entered commands and arguments
-void parseInput() {
-	
+char** parseInput() {
+	return 0; // To be implemented
 }
 
 // performs the parsed command
-void execute() {
-	
+int executeInput() {
+	return 0; // To be implemented
 }

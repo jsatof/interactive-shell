@@ -8,7 +8,6 @@
 // constants
 #define MAXINPUT 1000 // max number of characters supported
 #define MAXLIST 6 // number of commands supported
-#define clear() printf("\033[H\033[J") // Escape Sequence: clears everything in terminal and places cursor at top
 
 // our created header files
 #include "headers/InputBuffer.h"
@@ -35,10 +34,10 @@ void shellLoop() {
 }
 
 int main(int argc, char* args[]) {
-	clear();
+	printf("\033[H\033[J"); // Escape Sequence: clears everything in terminal and places cursor at top
 	puts("NautonShell implemented by James Ferrarelli and Shane Lopez. OS Fall-2019");
 
-	shellLoop();
+	shellLoop(); // Where all shell stuff happens
 	
 	return 0;
 }
