@@ -5,6 +5,8 @@
 #include <sys/wait.h>
 #include <string.h>
 
+#include "commands.h"
+
 #define WHITESPACE " \t\r\n\a" // tokens will be separated by whitespace characters
 
 /******
