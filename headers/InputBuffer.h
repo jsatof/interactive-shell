@@ -1,10 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <string.h>
+
+#define WHITESPACE " \t\r\n\a" // tokens will be separated by whitespace characters
+
+/******
+	Buffer for handling stdin
+*******/
 
 // fetches the line entered by the user
 char *readInput() {
 	int bufferSize = 1024; // arbitrarily picked a size
-	int position = 0;
+	int index = 0;
 	char *buffer = malloc(sizeof(char) * bufferSize); 
 	int c;
 
@@ -19,22 +29,22 @@ char *readInput() {
 
 		// when the entire line is read
 		if(c == EOF || c == '\n') { 
-			buffer[position] = '\0';
+			buffer[index] = '\0';
 			return buffer;
 		}
 		// else put the char in the string
 		else {
-			buffer[position] = c; 
+			buffer[index] = c; 
 		}
-		position++;
+		index++;
 
 		// reallocate for when the buffer size is exceeded
-		if(position >= bufferSize) {
+		if(index >= bufferSize) {
 			bufferSize += 1024; // double the size
 			buffer = realloc(buffer, bufferSize);
 		
 			if(!buffer) { // check again for null character
-				puts("allocation error+: buffer received a null character");
+				puts("allocation error: buffer received a null character");
 				exit(EXIT_FAILURE);
 			}			
 		}
@@ -42,11 +52,61 @@ char *readInput() {
 }
 
 // detects the entered commands and arguments
-char** parseInput() {
-	return 0; // To be implemented
+char** parseInput(char* line) {
+	int bufferSize = 1024;
+	int index = 0;
+	char **items = malloc(bufferSize * sizeof(char*));
+	char *item;
+
+	if(!items) {
+		puts("allocation error: parser received null character");
+		exit(EXIT_FAILURE);
+	}	 
+
+	item = strtok(line, WHITESPACE); // library function that essentially separates a string based on WHITESPACE 
+	while(item != NULL) { 			 
+		items[index] = item;
+		index++;
+
+		if(index >= bufferSize) {
+			bufferSize += bufferSize;
+			items = realloc(items, bufferSize * sizeof(char*));
+			if(!items) {
+				puts("allocation error: parser received null character");
+				exit(EXIT_FAILURE);
+			}
+		}
+
+		item = strtok(NULL, WHITESPACE);
+		
+	}
+	items[index] = NULL;
+	return items; 
 }
 
-// performs the parsed command
-int executeInput() {
-	return 0; // To be implemented
+// creates process for parsed commands 
+int executeInput(char **args) {
+	pid_t pid; 
+	pid_t wpid;
+	int status;
+
+	pid = fork();
+
+	// child process 
+	if(pid == 0) {
+		if(execvp(args[0], args) == -1) {
+			perror("shell");
+		}
+		exit(EXIT_FAILURE);
+	}
+	else if(pid < 0) {
+		perror("shell");
+	}
+	else {
+		do {
+			wpid = waitpid(pid, &status, WUNTRACED);
+		}
+		while(!WIFEXITED(status) && !WIFSIGNALED(status));
+	}
+	return 1;
 }
