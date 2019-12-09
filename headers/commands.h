@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <unistd.h>
 // This file contains all command implementation
 
 // list of available commands
@@ -12,12 +12,15 @@ static int sizeOfCommands() {
 }
 
 // change all the return types and parameters passed as see fit
-void shell_cd(char **args) {
-	
+
+// change all the return types and parameters passed as see fit
+void shell_cd(char *path) {
+        chdir(path);
 }
 
-void shell_pwd(char **args) {
-	
+void shell_pwd() {
+        char cwd[1024];
+        printf("%s\n",getcwd(cwd, sizeof(cwd)));
 }
 
 void shell_mkdir(char **args) {
