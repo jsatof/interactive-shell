@@ -30,6 +30,90 @@ int commandSize() {
 }
 
 // change all the return types and parameters passed as see fit
+int shell_cd(char *path) {
+        if(path == NULL){
+                fprintf(stderr,"Expected argument of 'cd /path'");
+        }
+        else {
+        if (chdir(path) != 0) {
+                perror("NautonShell");
+        }
+        return 1;
+        }
+}
+
+int shell_pwd() {
+        char cwd[1024];
+        printf("%s\n",getcwd(cwd, sizeof(cwd)));
+        return 1;
+}
+
+int shell_mkdir(char *dir) {
+        if(dir == NULL) {
+                fprintf(stderr,"Expected argument of 'mkdir /path'");
+        }
+        else {
+        if(mkdir(dir,00777)) {
+                perror("NautonShell");
+        }
+        return 1;
+        }
+}
+
+int shell_rmdir(char *dir) {
+        if(dir == NULL) {
+                fprintf(stderr,"Expected argument of 'rmdir /path'");
+        }
+        else {
+        if(rmdir(dir)){
+                perror("NautonShell");
+        }
+        return 1;
+        }
+}
+
+int shell_chmod(char *permissions, char *path) {
+        if(permissions == NULL || path == NULL) {
+                fprintf(stderr,"Expected arguments of 'chmod permissionsinoctal path'");
+        }
+        else {
+        if(chmod(path,strtol(permissions,0,8))){
+                perror("NautonShell");
+        }
+        }
+        return 1;
+
+}
+
+const int N = 80;
+int shell_cp(char *loc1, char *loc2) {
+        int f1,f2;
+        char buff [N];
+        long int n;
+        if((f1 = open(loc1, O_RDONLY)) == -1)
+        {
+         perror("Input file failed to open \n");
+         exit(EXIT_FAILURE);
+        }
+
+        if((f2  = open(loc2, O_WRONLY | O_CREAT | O_TRUNC, 0744))==-1) {
+                perror("Output failure \n");
+                exit(EXIT_FAILURE);
+        }
+
+        while((n=read(f1,buff, N))>0) { //0 indicates EOF
+                if(write(f2, buff, n) != n) {
+                        perror("Error writing to stdout.\n");
+                }
+}
+        close(f1);
+        close(f2);
+
+        return 1;
+}
+
+
+/*
 int shell_cd(char **args) {
 		char* t = *args;
         chdir(t);
@@ -91,7 +175,7 @@ int shell_cp(char **arg1, char **arg2) {
 
         return 1;
 }
-
+*/
 
 // below are a couple of functions for more accessibility 
 
