@@ -14,13 +14,15 @@
 // main loop for continual use
 void shellLoop() {
 	char uname[50];
+	char cwd[100];
 	char *line;
 	char **argv;
 	int status = 1;
 
 	while(status) {
+		getcwd(cwd, 100);
 		gethostname(uname, 50); // sets uname to the machine name
-		printf("@%s$ ", uname);
+		printf("@%s:%s$ ", uname, cwd);
 		
 		line = readInput();
 		argv = parseInput(line);
