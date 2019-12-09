@@ -42,7 +42,7 @@ int shell_pwd() {
 }
 
 int shell_mkdir(char *dir) {
-        mkdir(dir);
+        mkdir(dir,00777);
         printf("made new directory %s\n",dir);
         return 1;
 }
@@ -53,8 +53,8 @@ int shell_rmdir(char *dir) {
         return 1;
 }
 
-int shell_chmod(char *permissions, char *path) { //needs 4 characters, always starts with 0
-        chmod(path,strtol(permissions,0,8));
+int shell_chmod(char *permissions, char *path) {
+        chmod(path, strtol(permissions,0,8));
         return 1;
 }
 
@@ -84,7 +84,6 @@ int shell_cp(char *loc1, char *loc2) {
 
         return 1;
 }
-
 
 
 // below are a couple of functions for more accessibility 
