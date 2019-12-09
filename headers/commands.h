@@ -12,11 +12,11 @@
 int shell_exit();
 int shell_help();
 int shell_cd(char **args);
-int shell_pwd(char **args);
+int shell_pwd();
 int shell_mkdir(char **args);
 int shell_rmdir(char **args);
-int shell_chmod(char **args);
-int shell_cp(char **args);
+int shell_chmod();
+int shell_cp();
 
 
 // list of available commands
@@ -30,8 +30,9 @@ int commandSize() {
 }
 
 // change all the return types and parameters passed as see fit
-int shell_cd(char *path) {
-        chdir(path);
+int shell_cd(char **args) {
+		char* t = *args;
+        chdir(t);
         return 1;
 }
 
@@ -41,25 +42,31 @@ int shell_pwd() {
         return 1;
 }
 
-int shell_mkdir(char *dir) {
-        mkdir(dir,00777);
+int shell_mkdir(char **args) {
+		char *dir = *args;
+        mkdir(dir, 00777);
         printf("made new directory %s\n",dir);
         return 1;
 }
 
-int shell_rmdir(char *dir) {
+int shell_rmdir(char **args) {
+		char* dir = *args;
         rmdir(dir);
         printf("removed directory %s\n",dir);
         return 1;
 }
 
-int shell_chmod(char *permissions, char *path) {
+int shell_chmod(char **arg1, char **arg2) {
+		char* permissions = *arg1;
+		char* path = *arg2;
         chmod(path, strtol(permissions,0,8));
         return 1;
 }
 
 const int N = 80;
-int shell_cp(char *loc1, char *loc2) {
+int shell_cp(char **arg1, char **arg2) {
+		char* loc1 = *arg1;
+		char* loc2 = *arg2;
         int f1,f2; 
         char buff [N];
         long int n;
