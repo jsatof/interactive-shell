@@ -6,7 +6,7 @@
 
 // constants
 #define MAXINPUT 1000 // max number of characters supported
-#define MAXLIST 6 // number of commands supported
+#define MAXLIST 8 // number of commands supported
 
 // our created header files
 #include "headers/InputBuffer.h"
@@ -15,7 +15,7 @@
 void shellLoop() {
 	char uname[50];
 	char *line;
-	char **args;
+	char **argv;
 	int status = 1;
 
 	while(status) {
@@ -23,15 +23,15 @@ void shellLoop() {
 		printf("@%s$ ", uname);
 		
 		line = readInput();
-		args = parseInput(line);
-		status = launchInput(args);
+		argv = parseInput(line);
+		status = executeInput(argv);
 		
 		free(line);
-		free(args);
+		free(argv);
 	}
 }
 
-int main(int argc, char* args[]) {
+int main(int argc, char** argv) {
 	printf("\033[H\033[J"); // Escape Sequence: clears everything in terminal and places cursor at top
 	puts("NautonShell implemented by James Ferrarelli and Shane Lopez. OS Fall-2019");
 
