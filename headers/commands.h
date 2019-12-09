@@ -4,7 +4,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <errno.h>
-
+#include <fcntl.h>
 
 // This file contains all command implementation
 
@@ -58,11 +58,33 @@ int shell_chmod(char *permissions, char *path) { //needs 4 characters, always st
         return 1;
 }
 
-
+const int N = 80;
 int shell_cp(char *loc1, char *loc2) {
+        int f1,f2; 
+        char buff [N];
+        long int n;
+        if((f1 = open(loc1, O_RDONLY)) == -1)
+        {
+         perror("Input file failed to open \n");
+         exit(EXIT_FAILURE);
+        }
+
+        if((f2  = open(loc2, O_WRONLY | O_CREAT | O_TRUNC, 0744))==-1) {
+                perror("Output failure \n");
+                exit(EXIT_FAILURE);
+        }
+
+        while((n=read(f1,buff, N))>0) { //0 indicates EOF
+                if(write(f2, buff, n) != n) {
+                        perror("Error writing to stdout.\n");
+                }
+}
+        close(f1);
+        close(f2);
 
         return 1;
 }
+
 
 
 // below are a couple of functions for more accessibility 
