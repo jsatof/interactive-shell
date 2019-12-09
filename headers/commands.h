@@ -25,29 +25,34 @@ int commandSize() {
 }
 
 // change all the return types and parameters passed as see fit
-int shell_cd(char **args) {
-	
+int shell_cd(char *path) {
+        chdir(path);
+        return 1;
 }
 
-int shell_pwd(char **args) {
-	
+int shell_pwd() {
+        char cwd[1024];
+        printf("%s\n",getcwd(cwd, sizeof(cwd)));
+        return 1;
 }
 
-int shell_mkdir(char **args) {
-	
+int shell_mkdir(char *dir) {
+        mkdir(dir);
+        printf("made new directory %s\n",dir);
+        return 1;
 }
 
-int shell_rmdir(char **args) {
-	
+int shell_rmdir(char *dir) {
+        rmdir(dir);
+        printf("removed directory %s\n",dir);
+        return 1;
 }
 
 int shell_chmod(char **args) {
-	
+
+        return 1;       
 }
 
-int shell_cp(char **args) {
-	
-}
 
 // below are a couple of functions for more accessibility 
 
