@@ -1,5 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <errno.h>
+
 
 // This file contains all command implementation
 
@@ -48,9 +53,16 @@ int shell_rmdir(char *dir) {
         return 1;
 }
 
-int shell_chmod(char **args) {
+int shell_chmod(char *permissions, char *path) {
+        printf("Permissions before transform: %s\n",permissions);
+        chmod(path, strtol(permissions,0,8));
+        printf("Permissions after transform: %d\n",strtol(permissions,0,8));
+        return 1;
+}
 
-        return 1;       
+int shell_cp(char *loc1, char *loc2) {
+
+        return 1;
 }
 
 
