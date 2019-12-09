@@ -3,36 +3,49 @@
 
 // This file contains all command implementation
 
+// declaring the functions to be implemented
+int shell_exit();
+int shell_help();
+int shell_cd(char **args);
+int shell_pwd(char **args);
+int shell_mkdir(char **args);
+int shell_rmdir(char **args);
+int shell_chmod(char **args);
+int shell_cp(char **args);
+
+
 // list of available commands
-static char *commands[] = {"exit", "help", "cd", "pwd", "mkdir", "rmdir", "chmod", "cp"};
+char *commandString[] = {"exit", "help", "cd", "pwd", "mkdir", "rmdir", "chmod", "cp"};
+
+int (*commandFunction[]) (char **) = { &shell_exit, &shell_help, &shell_cd, &shell_pwd, &shell_mkdir, &shell_rmdir, &shell_chmod, &shell_cp };
 
 // returns length of commands[]
-static int sizeOfCommands() {
-	return sizeof(commands) / sizeof(char*);
+int commandSize() {
+	return sizeof(commandString) / sizeof(char*);
 }
 
 // change all the return types and parameters passed as see fit
-void shell_cd(char **args) {
+int shell_cd(char **args) {
 	
 }
 
-void shell_pwd(char **args) {
+int shell_pwd(char **args) {
 	
 }
 
-void shell_mkdir(char **args) {
+int shell_mkdir(char **args) {
 	
 }
 
-void shell_rmdir(char **args) {
+int shell_rmdir(char **args) {
 	
 }
 
-void shell_chmod(char **args) {
+int shell_chmod(char **args) {
 	
 }
 
-void shell_cp(char **args) {
+int shell_cp(char **args) {
 	
 }
 
@@ -46,8 +59,8 @@ int shell_help() {
 	puts("NautonShell implementation by James Ferrarelli and Shane Lopez, OS Fall 2019");
 	puts("Enter valid command names, followed by any arguments they require");
 	puts("Here are our available commands: ");
-	for(int i = 0; i < sizeOfCommands(); i++) {
-		printf("	%s\n", commands[i]);
+	for(int i = 0; i < commandSize(); i++) {
+		printf("	%s\n", commandString[i]);
 	}
 	return 1;	
 }

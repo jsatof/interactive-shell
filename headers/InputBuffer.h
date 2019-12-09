@@ -8,6 +8,8 @@
 #include "commands.h"
 
 #define WHITESPACE " \t\r\n\a" // tokens will be separated by whitespace characters
+#define BUFFERSIZE 64
+
 
 /******
 	Buffer for handling stdin
@@ -15,7 +17,7 @@
 
 // fetches the line entered by the user
 char *readInput() {
-	int bufferSize = 1024; // arbitrarily picked a size
+	int bufferSize = BUFFERSIZE; // arbitrarily picked a size
 	int index = 0;
 	char *buffer = malloc(sizeof(char) * bufferSize); 
 	int c;
@@ -30,7 +32,7 @@ char *readInput() {
 		c = getchar();
 
 		// when the entire line is read
-		if(c == EOF || c == '\n') { 
+		if(c == EOF || c == '\n') {
 			buffer[index] = '\0';
 			return buffer;
 		}
@@ -42,7 +44,7 @@ char *readInput() {
 
 		// reallocate for when the buffer size is exceeded
 		if(index >= bufferSize) {
-			bufferSize *= 1024; // double the size
+			bufferSize *= 2; // double the size
 			buffer = realloc(buffer, bufferSize);
 		
 			if(!buffer) { // check again for null character
@@ -55,7 +57,7 @@ char *readInput() {
 
 // detects the entered commands and arguments
 char** parseInput(char* line) {
-	int bufferSize = 1024;
+	int bufferSize = BUFFERSIZE;
 	int index = 0;
 	char **items = malloc(bufferSize * sizeof(char*));
 	char *item;
@@ -70,6 +72,7 @@ char** parseInput(char* line) {
 		items[index] = item;
 		index++;
 
+		// if buffer is exceeded
 		if(index >= bufferSize) {
 			bufferSize += bufferSize;
 			items = realloc(items, bufferSize * sizeof(char*));
@@ -87,7 +90,7 @@ char** parseInput(char* line) {
 }
 
 // creates process for parsed commands 
-int launchInput(char **args) {
+int launchInput(char **argv) {
 	pid_t pid; 
 	int status;
 
@@ -95,7 +98,7 @@ int launchInput(char **args) {
 
 	// child process 
 	if(pid == 0) {
-		if(execvp(args[0], args) == -1) {
+		if(execvp(argv[0], argv) == -1) {
 			perror("shell");
 		}
 		exit(EXIT_FAILURE);
@@ -105,10 +108,21 @@ int launchInput(char **args) {
 	}
 	// parent process
 	else {
-		do {
-			waitpid(pid, &status, WUNTRACED);
-		}
-		while(!WIFEXITED(status) && !WIFSIGNALED(status));
+		wait(NULL);
 	}
 	return 1;
+}
+
+int executeInput(char **args) {
+	if(args[0] == NULL) {
+		return 1;  // empty command entered
+	}
+
+	for(int i = 0; i < commandSize(); i++) {
+		if(strcmp(args[0], commandString[i]) == 0) {
+			return (*commandFunction[i])(args);
+		}
+	}
+	
+	return launchInput(args);
 }
