@@ -25,7 +25,7 @@ char *readInput() {
 	if(!buffer) { // checks if buffer is a null character
 		puts("allocation error: reader received a null character");
 		exit(EXIT_FAILURE);
-	}	
+	}
 
 	// loop through and read the entered line char by char
 	while(1) {
@@ -38,7 +38,7 @@ char *readInput() {
 		}
 		// else put the char in the string
 		else {
-			buffer[index] = c; 
+			buffer[index] = c;
 		}
 		index++;
 
@@ -46,11 +46,11 @@ char *readInput() {
 		if(index >= bufferSize) {
 			bufferSize *= 2; // double the size
 			buffer = realloc(buffer, bufferSize);
-		
+
 			if(!buffer) { // check again for null character
 				puts("allocation error: reader received a null character");
 				exit(EXIT_FAILURE);
-			}			
+			}
 		}
 	}
 }
@@ -68,7 +68,7 @@ char** parseInput(char* line) {
 		exit(EXIT_FAILURE);
 	}
 
-	item = strtok(line, WHITESPACE); // library function that essentially separates a string based on WHITESPACE 
+	item = strtok(line, WHITESPACE); // library function that essentially separates a string based on WHITESPACE
 	while(item != NULL) {
 		items[index] = item;
 		index++;
@@ -87,17 +87,17 @@ char** parseInput(char* line) {
 
 	}
 	items[index] = NULL;
-	return items; 
+	return items;
 }
 
-// creates process for parsed commands 
+// creates process for parsed commands
 int launchInput(char **argv) {
-	pid_t pid; 
+	pid_t pid;
 	int status;
 
 	pid = fork();
 
-	// child process 
+	// child process
 	if(pid == 0) {
 		if(execvp(argv[0], argv) == -1) {
 			perror("shell");

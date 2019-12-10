@@ -23,11 +23,11 @@ void shellLoop() {
 		getcwd(cwd, 100);
 		gethostname(uname, 50); // sets uname to the machine name
 		printf("@%s:%s$ ", uname, cwd);
-		
+
 		line = readInput();
 		argv = parseInput(line);
 		status = executeInput(argv);
-		
+
 		free(line);
 		free(argv);
 	}
@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 	puts("NautonShell implemented by James Ferrarelli and Shane Lopez. OS Fall-2019");
 
 	shellLoop(); // Where all shell stuff happens
-	
+
 	return 0;
 }
 
