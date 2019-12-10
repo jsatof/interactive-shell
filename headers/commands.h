@@ -9,14 +9,15 @@
 // This file contains all command implementation
 
 // declaring the functions to be implemented
-int shell_exit();
-int shell_help();
+
+int shell_exit(char **args);
+int shell_help(char **args);
 int shell_cd(char **args);
-int shell_pwd();
+int shell_pwd(char **args);
 int shell_mkdir(char **args);
 int shell_rmdir(char **args);
-int shell_chmod();
-int shell_cp();
+int shell_chmod(char **args);
+int shell_cp(char **args);
 
 
 // list of available commands
@@ -30,54 +31,54 @@ int commandSize() {
 }
 
 // change all the return types and parameters passed as see fit
-int shell_cd(char *path) {
-        if(path == NULL){
+int shell_cd(char **args) {
+        if(args[1] == NULL){
                 fprintf(stderr,"Expected argument of 'cd /path'");
         }
         else {
-        if (chdir(path) != 0) {
+        if (chdir(args[1]) != 0) {
                 perror("NautonShell");
         }
         return 1;
         }
 }
 
-int shell_pwd() {
+int shell_pwd(char **args) {
         char cwd[1024];
         printf("%s\n",getcwd(cwd, sizeof(cwd)));
         return 1;
 }
 
-int shell_mkdir(char *dir) {
-        if(dir == NULL) {
+int shell_mkdir(char **args) {
+        if(args[1] == NULL) {
                 fprintf(stderr,"Expected argument of 'mkdir /path'");
         }
         else {
-        if(mkdir(dir,00777)) {
+        if(mkdir(args[1],00777)) {
                 perror("NautonShell");
         }
         return 1;
         }
 }
 
-int shell_rmdir(char *dir) {
-        if(dir == NULL) {
+int shell_rmdir(char **args) {
+        if(args[1] == NULL) {
                 fprintf(stderr,"Expected argument of 'rmdir /path'");
         }
         else {
-        if(rmdir(dir)){
+        if(rmdir(args[1])){
                 perror("NautonShell");
         }
         return 1;
         }
 }
 
-int shell_chmod(char *permissions, char *path) {
-        if(permissions == NULL || path == NULL) {
+int shell_chmod(char **args) {
+        if(args[1] == NULL || args[2] == NULL) {
                 fprintf(stderr,"Expected arguments of 'chmod permissionsinoctal path'");
         }
         else {
-        if(chmod(path,strtol(permissions,0,8))){
+        if(chmod(args[2],strtol(args[1],0,8))){
                 perror("NautonShell");
         }
         }
@@ -86,17 +87,17 @@ int shell_chmod(char *permissions, char *path) {
 }
 
 const int N = 80;
-int shell_cp(char *loc1, char *loc2) {
+int shell_cp(char **args) {
         int f1,f2;
         char buff [N];
         long int n;
-        if((f1 = open(loc1, O_RDONLY)) == -1)
+        if((f1 = open(args[1], O_RDONLY)) == -1)
         {
          perror("Input file failed to open \n");
          exit(EXIT_FAILURE);
         }
 
-        if((f2  = open(loc2, O_WRONLY | O_CREAT | O_TRUNC, 0744))==-1) {
+        if((f2  = open(args[2], O_WRONLY | O_CREAT | O_TRUNC, 0744))==-1) {
                 perror("Output failure \n");
                 exit(EXIT_FAILURE);
         }
@@ -151,7 +152,7 @@ const int N = 80;
 int shell_cp(char **arg1, char **arg2) {
 		char* loc1 = *arg1;
 		char* loc2 = *arg2;
-        int f1,f2; 
+        int f1,f2;
         char buff [N];
         long int n;
         if((f1 = open(loc1, O_RDONLY)) == -1)
@@ -179,17 +180,17 @@ int shell_cp(char **arg1, char **arg2) {
 
 // below are a couple of functions for more accessibility 
 
-int shell_exit() {
+int shell_exit(char **args) {
 	return 0;
 }
 
-int shell_help() {
+int shell_help(char **args) {
 	puts("NautonShell implementation by James Ferrarelli and Shane Lopez, OS Fall 2019");
 	puts("Enter valid command names, followed by any arguments they require");
 	puts("Here are our available commands: ");
 	for(int i = 0; i < commandSize(); i++) {
 		printf("	%s\n", commandString[i]);
 	}
-	return 1;	
+	return 1;
 }
 

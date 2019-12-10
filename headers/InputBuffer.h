@@ -60,15 +60,16 @@ char** parseInput(char* line) {
 	int bufferSize = BUFFERSIZE;
 	int index = 0;
 	char **items = malloc(bufferSize * sizeof(char*));
-	char *item;
+	memset(items,0, bufferSize * sizeof(char*));
+	char *item = NULL;
 
 	if(!items) {
 		puts("allocation error: parser received null character");
 		exit(EXIT_FAILURE);
-	}	 
+	}
 
 	item = strtok(line, WHITESPACE); // library function that essentially separates a string based on WHITESPACE 
-	while(item != NULL) { 			 
+	while(item != NULL) {
 		items[index] = item;
 		index++;
 
@@ -83,7 +84,7 @@ char** parseInput(char* line) {
 		}
 
 		item = strtok(NULL, WHITESPACE);
-		
+
 	}
 	items[index] = NULL;
 	return items; 
@@ -123,6 +124,6 @@ int executeInput(char **args) {
 			return (*commandFunction[i])(args);
 		}
 	}
-	
+
 	return launchInput(args);
 }
